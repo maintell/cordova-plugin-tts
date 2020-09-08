@@ -81,13 +81,49 @@ public class TTS extends CordovaPlugin implements OnInitListener {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext)
             throws JSONException {
         if (action.equals("speak")) {
-            speak(args, callbackContext);
-        } else if (action.equals("stop")) {
-            stop(args, callbackContext);
-        } else if (action.equals("checkLanguage")) {
-            checkLanguage(args, callbackContext);
-        } else if (action.equals("openInstallTts")) {
-            callInstallTtsActivity(args, callbackContext);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        speak(args, callbackContext);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callbackContext.error("error" + e.getMessage());
+                    }
+                }
+            });
+        } else if (action.equals("stop")) {            
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        stop(args, callbackContext);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callbackContext.error("error" + e.getMessage());
+                    }
+                }
+            });
+        } else if (action.equals("checkLanguage")) {                        
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        checkLanguage(args, callbackContext);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callbackContext.error("error" + e.getMessage());
+                    }
+                }
+            });
+        } else if (action.equals("openInstallTts")) {                                    
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        callInstallTtsActivity(args, callbackContext);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callbackContext.error("error" + e.getMessage());
+                    }
+                }
+            });
         } else {
             return false;
         }
