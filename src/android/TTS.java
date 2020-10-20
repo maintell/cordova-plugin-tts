@@ -139,7 +139,7 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             HashMap<String, String> ttsParams = new HashMap<String, String>();
             ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
             tts.setLanguage(new Locale("en", "US"));
-            tts.speak("", TextToSpeech.QUEUE_ADD, ttsParams);
+            tts.speak("", TextToSpeech.QUEUE_FLUSH, ttsParams);
 
             ttsInitialized = true;
         }
@@ -238,6 +238,6 @@ public class TTS extends CordovaPlugin implements OnInitListener {
             tts.setSpeechRate((float) rate);
         }
 
-        tts.speak(text, TextToSpeech.QUEUE_ADD, ttsParams);
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, ttsParams);
     }
 }
